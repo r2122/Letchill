@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Favorites - LETCHILL</title> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: url('img/screen.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+    .movie-card {
+      width: 180px;
+      height: 270px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .movie-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="img/lc logo.png" alt="Logo" width="40" height="40" class="me-2">
+        <span>LETCHILL</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="web.html">Web series</a></li>
+          <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+          <li class="nav-item"><a class="nav-link" href="favorites.html">Favorites</a></li>
+          <li class="nav-item">
+            <div class="form-check form-switch ms-3 mt-2">
+              <input class="form-check-input" type="checkbox" id="modeToggle">
+              <label class="form-check-label" for="modeToggle">Light Mode</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Your Favorite Movies</h2>
+    <div class="row justify-content-center gap-3" id="favoritesList"></div>
+  </div>
+
+  <footer class="mt-5 bg-black text-center py-3">
+    <p class="mb-0 text-white">LETCHILL © 2025 | Created by Mohan Ram</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggle = document.getElementById('modeToggle');
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        document.body.classList.toggle('light-mode');
+      });
+    }
+
+    const trailers = {
+      1: { img: "img/meiyazhagan.jpg", title: "Meiyazhagan" },
+      2: { img: "img/m1.jpg", title: "Venom" },
+      3: { img: "img/sarpata.jpg", title: "Sarpata Parmabari" },
+      4: { img: "img/guru.jpg", title: "Guruvayur Ambala Nadayil" },
+      5: { img: "img/m3.jpg", title: "Batman" },
+      6: { img: "img/premam.jpg", title: "Premam" },
+      7: { img: "img/m6.jpg", title: "Blackpanther" },
+      8: { img: "img/gym.jpg", title: "Alappuzha Gymkhana" },
+      9: { img: "img/chennai.avif", title: "Vadachennai" },
+      10: { img: "img/m2.jpg", title: "Dunkerk" },
+      11: { img: "img/m9.jpg", title: "Mortal" },
+      12: { img: "img/m8.png", title: "Bumblebee" },
+      13: { img: "img/m7.jpg", title: "Thor" },
+      14: { img: "img/m4.jpg", title: "John Wick" },
+      15: { img: "img/m5.jpg", title: "Aquaman" },
+      16: { img: "img/retro.avif", title: "Retro" },
+      17: { img: "img/jana.jpg", title: "Jananayagam" },
+      18: { img: "img/family.jpg", title: "Family" },
+      19: { img: "img/lubber.jpg", title: "Lubber Pandhu" },
+      20: { img: "img/lover.jpg", title: "Lover" },
+      21: { img: "img/padaikalm.avif", title: "Padaikalam" },
+      22: { img: "img/premalu.jpg", title: "Premalu" },
+      23: { img: "img/jojo.jpg", title: "Jo Jo" },
+      24: { img: "img/homeee.jpg", title: "Home" },
+      25: { img: "img/ayyapa.jpg", title: "Ayyappanum Koshiyum" }
+    };
+
+    const favContainer = document.getElementById("favoritesList");
+    const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    if (favs.length === 0) {
+      favContainer.innerHTML = '<p class="text-white">No favorites added yet.</p>';
+    } else {
+      favs.forEach(id => {
+        const movie = trailers[id];
+        if (movie) {
+          const col = document.createElement("div");
+          col.className = "col-6 col-sm-4 col-md-3 col-lg-2";
+          col.innerHTML = `
+            <div class="movie-card">
+              <img src="${movie.img}" alt="${movie.title}">
+            </div>`;
+          favContainer.appendChild(col);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

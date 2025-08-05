@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LETCHILL 🎬</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body.light-mode { background: #fff; color: #000; }
+    .hero {
+      height: 90vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url('img/home_bg.png') center center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+    .movie-row h4 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .movie-slider {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .movie-card {
+      width: 180px;
+      height: 270px;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-card img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    .fav-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      padding: 5px 8px;
+      font-size: 16px;
+    }
+    @media (max-width: 576px) {
+      .movie-card {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-dark text-white">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="img/lc logo.png" alt="Logo" width="40" height="40" class="me-2">
+        <span>LETCHILL</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="web.html">Web series</a></li>
+          <li class="nav-item"><a class="nav-link" href="movies.html">Movies</a></li>
+          <li class="nav-item"><a class="nav-link" href="favorites.html">Favorites</a></li>
+          <li class="nav-item">
+            <div class="form-check form-switch ms-3 mt-2">
+              <input class="form-check-input" type="checkbox" id="modeToggle">
+              <label class="form-check-label" for="modeToggle">Light Mode</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Unlimited Movies, Series & More</h1>
+      <p class="lead">Watch Anywhere Anytime.</p>
+      <button class="btn btn-danger btn-lg mt-3" data-bs-toggle="modal" data-bs-target="#loginModal">Log-in</button>
+      <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+              <h5 class="modal-title">Login / Signup</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <input type="email" class="form-control mb-2" placeholder="Email">
+              <input type="password" class="form-control mb-3" placeholder="Password">
+              <button class="btn btn-danger w-100 mb-2">Login</button>
+              <p class="text-center mb-0">Don't have an account? <a href="#" class="text-info">Sign up</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6 mb-2">
+        <input type="text" class="form-control" id="searchInput" placeholder="Search movies...">
+      </div>
+      <div class="col-md-3 mb-2">
+        <select class="form-select" id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="English">English</option>
+          <option value="Tamil">Tamil</option>
+          <option value="Malayalam">Malayalam</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="container movie-row" id="movieContainer"></div>
+
+  <div class="container movie-row" id="recentlyWatchedContainer"></div>
+
+  <!-- ✅ Added Clear Button -->
+  <div class="container text-center mt-3">
+    <button class="btn btn-warning" onclick="clearRecentlyWatched()">Clear Recently Watched</button>
+  </div>
+
+  <footer class="mt-5 bg-black text-center py-3">
+    <p class="mb-0 text-white">LETCHILL © 2025 | Created by Mohan Ram</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('modeToggle')?.addEventListener('change', () => {
+      document.body.classList.toggle('light-mode');
+    });
+
+    const movies = [
+      { id: 1, title: "Meiyazhagan", category: "Tamil", img: "img/meiyazhagan.jpg" },
+      { id: 2, title: "Venom", category: "English", img: "img/m1.jpg" },
+      { id: 3, title: "Sarpata", category: "Tamil", img: "img/sarpata.jpg" },
+      { id: 4, title: "Guruvayur Ambala Nadayil", category: "Malayalam", img: "img/guru.jpg" },
+      { id: 5, title: "Batman", category: "English", img: "img/m3.jpg" },
+      { id: 6, title: "Premam", category: "Malayalam", img: "img/premam.jpg" },
+      { id: 7, title: "Blackpanter", category: "English", img: "img/m6.jpg" },
+      { id: 8, title: "Alappuzha Gymkhana", category: "Malayalam", img: "img/gym.jpg" },
+      { id: 9, title: "Vadachennai", category: "Tamil", img: "img/chennai.avif" },
+      { id: 10, title: "Dunkerk", category: "English", img: "img/m2.jpg" }
+    ];
+
+    const container = document.getElementById("movieContainer");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const recentlyWatchedContainer = document.getElementById("recentlyWatchedContainer");
+
+    function toggleFavorite(e, id) {
+      e.stopPropagation();
+      let favs = JSON.parse(localStorage.getItem("favorites") || "[]");
+      if (favs.includes(id)) {
+        favs = favs.filter(f => f !== id);
+      } else {
+        favs.push(id);
+      }
+      localStorage.setItem("favorites", JSON.stringify(favs));
+      renderMovies();
+    }
+
+    function renderMovies() {
+      const query = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+      container.innerHTML = `<h4 class='text-center'>All Movies</h4>
+        <div class="row g-3 justify-content-center">
+          ${movies.filter(m => {
+            return (!category || m.category === category) && m.title.toLowerCase().includes(query);
+          }).map(m => `
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+              <div class="movie-card">
+                <img src="${m.img}" alt="${m.title}" onclick="location.href='trailer.html?id=${m.id}'">
+                <button class="fav-btn" onclick="toggleFavorite(event, ${m.id})">
+                  ${favorites.includes(m.id) ? '❤️' : '🤍'}
+                </button>
+              </div>
+            </div>
+          `).join("")}
+        </div>`;
+    }
+
+    function renderRecentlyWatched() {
+      const watched = JSON.parse(localStorage.getItem("recentlyWatched") || "[]");
+      if (watched.length === 0) return;
+
+      recentlyWatchedContainer.innerHTML = `<h4 class='text-center'>Recently Watched</h4>
+        <div class="row g-3 justify-content-center">
+          ${watched.map(id => {
+            const m = movies.find(movie => movie.id == id);
+            return m ? `
+              <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="movie-card">
+                  <img src="${m.img}" alt="${m.title}" onclick="location.href='trailer.html?id=${m.id}'">
+                </div>
+              </div>
+            ` : "";
+          }).join("")}
+        </div>`;
+    }
+
+    function clearRecentlyWatched() {
+      localStorage.removeItem("recentlyWatched");
+      alert("Recently watched movies cleared!");
+      location.reload();
+    }
+
+    searchInput.addEventListener("input", renderMovies);
+    categoryFilter.addEventListener("change", renderMovies);
+    renderMovies();
+    renderRecentlyWatched();
+  </script>
+</body>
+</html>

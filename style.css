@@ -1,0 +1,13 @@
+body.light-mode {
+  background-color: #fff;
+  color: #000;
+}
+.movie-card {
+  position: relative;
+  cursor: pointer;
+}
+.movie-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
